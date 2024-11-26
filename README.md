@@ -1,8 +1,9 @@
 # Homework_NLP
 # Text Preprocessing and Analysis
+# note that I was run in colab and then copy all code into git later
+# https://colab.research.google.com/drive/1vEfKf98VWCCGt8CzFmNeduamiJHd_nxA#scrollTo=fXyze3VKWib3
 
 This project processes and analyzes text data using three natural language processing (NLP) frameworks: **NLTK**, **TextBlob**, and **spaCy**. The analysis involves cleaning the text, tokenizing it into sentences and words, and performing a basic frequency analysis to identify the most common words.
-#note that I was run in colab and then copy all code into git later
 ---
 
 ## Features
