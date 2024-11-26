@@ -1,0 +1,138 @@
+#ดูทุกอย่างใน colab จะดีกว่านะคะ รันไว้ในนี้ค่ะ
+#https://colab.research.google.com/drive/1vEfKf98VWCCGt8CzFmNeduamiJHd_nxA#scrollTo=fXyze3VKWib3
+
+import time
+import nltk
+from textblob import TextBlob
+import spacy
+from collections import Counter
+import pandas as pd
+
+nltk.download('punkt_tab')
+
+# Load the text from alice29.txt
+from google.colab import files
+uploaded = files.upload()
+
+  file_path = "alice29.txt"
+with open(file_path, "r", encoding="utf-8") as f:
+    text = f.read()
+
+# Define analysis functions
+def nltk_analysis(text):
+    nltk.download('punkt')
+    start = time.time()
+    sentences = nltk.sent_tokenize(text)
+    words = nltk.word_tokenize(text)
+    freq_dist = Counter(words)
+    top_words = freq_dist.most_common(10)
+    end = time.time()
+    return sentences, words, top_words, end - start
+
+def textblob_analysis(text):
+    start = time.time()
+    blob = TextBlob(text)
+    sentences = blob.sentences
+    words = blob.words
+    freq_dist = Counter(words)
+    top_words = freq_dist.most_common(10)
+    end = time.time()
+    return sentences, words, top_words, end - start
+
+def spacy_analysis(text):
+    nlp = spacy.load("en_core_web_sm")
+    start = time.time()
+    doc = nlp(text)
+    sentences = [sent.text for sent in doc.sents]
+    words = [token.text for token in doc]
+    freq_dist = Counter(words)
+    top_words = freq_dist.most_common(10)
+    end = time.time()
+    return sentences, words, top_words, end - start
+
+# Re-run the full process
+with open(file_path, "r", encoding="utf-8") as f:
+    text = f.read()
+
+# Cleaning the text
+cleaned_text = clean_text(text)
+with open("cleaned.txt", "w", encoding="utf-8") as f:
+    f.write(cleaned_text)
+
+# Perform analysis
+nltk_sentences, nltk_words, nltk_top_words, nltk_time = nltk_analysis(cleaned_text)
+textblob_sentences, textblob_words, textblob_top_words, textblob_time = textblob_analysis(cleaned_text)
+spacy_sentences, spacy_words, spacy_top_words, spacy_time = spacy_analysis(cleaned_text)
+
+# Save tokenized words
+with open("words.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(nltk_words))
+
+# Save top 10 words
+top10words = pd.DataFrame({
+    "Framework": ["NLTK", "TextBlob", "spaCy"],
+    "Top Words": [nltk_top_words, textblob_top_words, spacy_top_words]
+})
+top10words.to_csv("top10words.txt", index=False)
+
+# Save runtime comparison
+time_comparison = pd.DataFrame({
+    "Framework": ["NLTK", "TextBlob", "spaCy"],
+    "Time (seconds)": [nltk_time, textblob_time, spacy_time]
+})
+time_comparison.to_csv("time_compares.txt", index=False)
+
+from google.colab import files
+
+"complete, and updated outputs are saved."
+#output
+files.download("cleaned.txt")
+files.download("top10words.txt")
+files.download("time_compares.txt")
+# Save tokenized sentences
+with open("sentences_nltk.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(nltk_sentences))
+
+with open("sentences_textblob.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(map(str, textblob_sentences)))
+
+with open("sentences_spacy.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(spacy_sentences))
+
+# Save tokenized words
+with open("words_nltk.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(nltk_words))
+
+with open("words_textblob.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(textblob_words))
+
+with open("words_spacy.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(spacy_words))
+print("NLTK Sentences:")
+print(nltk_sentences)  # List of tokenized sentences
+
+print("\nNLTK Words:")
+print(nltk_words)  # List of tokenized words
+
+from google.colab import files
+files.download("sentences_nltk.txt")
+files.download("words_nltk.txt")
+
+print("TextBlob Sentences:")
+print(textblob_sentences)  # List of tokenized sentences
+
+print("\nTextBlob Words:")
+print(textblob_words)  # List of tokenized words
+from google.colab import files
+files.download("sentences_textblob.txt")
+files.download("words_textblob.txt")
+
+print("spaCy Sentences:")
+print(spacy_sentences)  # List of tokenized sentences
+
+print("\nspaCy Words:")
+print(spacy_words)  # List of tokenized words
+from google.colab import files
+
+files.download("sentences_spacy.txt")
+files.download("words_spacy.txt")
