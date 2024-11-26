@@ -25,6 +25,8 @@ This project processes and analyzes text data using three natural language proce
 8.  `words_textblob.txt`: Tokenized words from textblob.
 9. `sentences_spacy.txt`: Tokenized sentences from spacy.
 10.  `words_spacy.txt`: Tokenized words from spacy.
+11.  NLP_Homework : code in ipynb file
+12.  NLP_Homework - Colab : all code in pdf file
 
 
 
